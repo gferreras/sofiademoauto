@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+<link rel="stylesheet" type="text/css" href="https://gferreras.github.io/sofiademo/fonts.css"/>	
+<link rel="shortcut icon" type="image/x-icon" href="https://gferreras.github.io/sofiademo/favicon.ico" />	
+<script type="text/javascript">
+
+       function onBodyLoaded() {
+           /**
+             * Toggles the inert attribute on background content for the page.
+             * The inert attribute just needs to be set on parent level DOM
+             * nodes. Inert will set the DOM node aria-hidden attribute and
+             * and set tab-index="-1" on all children so that screen readers
+             * can't access the content.
+             */
+           function toggleInert(disabled) {
+               let bodyElem = document.getElementById("body-content");
+               if(bodyElem) {
+                   bodyElem.inert = disabled;
+               }
+           }
+ 
+           // Add hooks to toggle inert on our page when Embedded Chat
+           // changes state.
+           function addA11yHooks() {
+               embedded_svc.addEventHandler('afterMaximize', function(data) {
+                   toggleInert(true);
+               });
+               embedded_svc.addEventHandler('afterDestroy', function(data) {
+                   toggleInert(false);
+               });
+               embedded_svc.addEventHandler('afterMinimize', function(data) {
+                   toggleInert(false);
+               });
+           }
+ 
+           // Early out for desktop.
+           if(embedded_svc.isDesktop()) {
+               return;
+           }
+ 
+           // Add hooks for mobile.
+           addA11yHooks();
+       }
+	window.addEventListener("message", (event) => {
+            // event.source is window.opener
+            // event.data is the content sent from child LWC
+            embedded_svc.postMessage("chasitor.sendMessage", event.data.message);
+          }, false);
+</script>	
+Bot Test page
+</head>
+<body onload="onBodyLoaded()">
+   <div id="body-content">
+       <h1>Welcome to the Sofia Bot-UST-ORG!</h1>
+	<style type="text/css">
+		.embeddedServiceHelpButton .helpButton .uiButton {
+			background-color: #1434CB;
+			font-family: "Visa Dialect UI", sans-serif;
+		}
+		.embeddedServiceHelpButton .helpButton .uiButton:focus {
+			outline: 1px solid #1434CB;
+		}
+		.previews img {
+		       max-width: 100%;
+		       border-radius: 10px;
+		 }
+		 .chat-content a {
+		       color: #fff;
+		 }
+	</style>
+  <!-- Start of Invitations -->
+<div class="embeddedServiceInvitation" id="snapins_invite" inert="true" aria-live="assertive" role="dialog" aria-atomic="true">
+	<div class="embeddedServiceInvitationHeader" aria-labelledby="snapins_titletext" aria-describedby="snapins_bodytext">
+		<img id="embeddedServiceAvatar"></img>
+		<span class="embeddedServiceTitleText" id="snapins_titletext">Need help?</span>
+		<button type="button" id="closeInvite" class="embeddedServiceCloseIcon" aria-label="Exit invitation">&times;</button>
+	</div>
+	<div class="embeddedServiceInvitationBody">
+		<p id="snapins_bodytext">How can we help you?</p>
+	</div>
+	<div class="embeddedServiceInvitationFooter" aria-describedby="snapins_bodytext">
+		<button type="button" class="embeddedServiceActionButton" id="rejectInvite">Close</button>
+		<button type="button" class="embeddedServiceActionButton" id="acceptInvite">Start Chat</button>
+	</div>
+</div>
+
+<style type='text/css'>
+	#snapins_invite { background-color: #FFFFFF; font-family: "Visa Dialect UI", sans-serif; overflow: visible; border-radius: 8px; visibility: hidden; }
+	.embeddedServiceInvitation { background-color: transparent; max-width: 290px; max-height: 210px; -webkit-box-shadow: 0 7px 12px rgba(0,0,0,0.28); -moz-box-shadow: 0 7px 12px rgba(0,0,0,0.28); box-shadow: 0 7px 12px rgba(0,0,0,0.28); }
+	@media only screen and (min-width: 48em) { /*mobile*/ .embeddedServiceInvitation { max-width: 332px; max-height: 210px; } }
+	.embeddedServiceInvitation > .embeddedServiceInvitationHeader { width: inherit; height: 32px; line-height: 32px; padding: 10px; color: #FFFFFF; background-color: #222222; overflow: initial; display: flex; justify-content: space-between; align-items: stretch; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+	.embeddedServiceInvitationHeader #embeddedServiceAvatar { width: 32px; height: 32px; border-radius: 50%; }
+	.embeddedServiceInvitationHeader .embeddedServiceTitleText { font-size: 18px; color: #FFFFFF; overflow: hidden; word-wrap: normal; white-space: nowrap; text-overflow: ellipsis; align-self: stretch; flex-grow: 1; max-width: 100%; margin: 0 12px; }
+	.embeddedServiceInvitationHeader .embeddedServiceCloseIcon { border: none; border-radius: 3px; cursor: pointer; position: relative; bottom: 3%; background-color: transparent; width: 32px; height: 32px; font-size: 23px; color: #FFFFFF; }
+	.embeddedServiceInvitationHeader .embeddedServiceCloseIcon:focus { outline: none; }
+	.embeddedServiceInvitationHeader .embeddedServiceCloseIcon:focus::before { content: " "; position: absolute; top: 11%; left: 7%; width: 85%; height: 85%; background-color: rgba(255, 255, 255, 0.2); border-radius: 4px; pointer-events: none; }
+	.embeddedServiceInvitationHeader .embeddedServiceCloseIcon:active, .embeddedServiceCloseIcon:hover { background-color: #FFFFFF; color: rgba(0,0,0,0.7); opacity: 0.7; }
+	.embeddedServiceInvitation > .embeddedServiceInvitationBody { background-color: #FFFFFF; max-height: 110px; min-width: 260px; margin: 0 8px; font-size: 14px; line-height: 20px; overflow: auto; }
+	.embeddedServiceInvitationBody p { color: #333333; padding: 8px; margin: 12px 0; }
+	.embeddedServiceInvitation > .embeddedServiceInvitationFooter { width: inherit; color: #FFFFFF; text-align: right; background-color: #FFFFFF; padding: 10px; max-height: 50px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+	.embeddedServiceInvitationFooter > .embeddedServiceActionButton { font-size: 14px; max-height: 40px; border: none; border-radius: 4px; padding: 10px; margin: 4px; text-align: center; text-decoration: none; display: inline-block; cursor: pointer; }
+	.embeddedServiceInvitationFooter > #acceptInvite { background-color: #1434CB; color: #FFFFFF; }
+	.embeddedServiceInvitationFooter > #rejectInvite { background-color: #FFFFFF; color: #1434CB; }
+</style>
+
+<script type='text/javascript'>
+	(function() {
+		document.getElementById('closeInvite').onclick = function() { embedded_svc.inviteAPI.inviteButton.rejectInvite(); };
+		document.getElementById('rejectInvite').onclick = function() { embedded_svc.inviteAPI.inviteButton.rejectInvite(); }; // use this API call to reject invitations
+		document.getElementById('acceptInvite').onclick = function() { embedded_svc.inviteAPI.inviteButton.acceptInvite(); }; // use this API call to start chat from invitations
+		document.addEventListener('keyup', function(event) { if (event.keyCode == 27) { embedded_svc.inviteAPI.inviteButton.rejectInvite(); }})
+	})();
+</script>
+<!-- End of Invitations -->
+	</div>
+<script type="text/javascript" src="https://service.force.com/embeddedservice/5.0/esw.min.js"></script>
+<script type="text/javascript">
+	var initESW = function(gslbBaseURL) {
+		embedded_svc.settings.displayHelpButton = true; //Or false
+		embedded_svc.settings.language = 'pt_BR'; //For example, enter 'en' or 'en-US' 'en-US', 'pt_BR', 'es'
+		var lang = embedded_svc.settings.language;
+		var firstNameEN = 'First Name';
+		var firstNameSP = 'Nombre';
+		var firstNamePT = 'Primeiro Nome';
+		var lastNameEN = 'Last Name';
+		var lastNameSP = 'Apellidos';
+		var lastNamePT = 'Sobrenome';
+		var emailEN = 'Email';
+		var emailSP = 'Correo electrónico';
+		var emailPT = 'Email';
+		var languageEN = 'Language';
+		var languageSP = 'Idioma';
+		var languagePT = 'Idioma';
+		var Country = 'Country';
+		var varFirstName = '';
+		var varLastName = '';
+		var varLanguage = '';
+		var varEmail = '';
+		var varTalk = '';
+		var varLanguageValue ='';
+		var isLogged = false;
+		var varCountry = '';
+		if(lang=='en_US'){
+			varFirstName = firstNameEN;
+			varLastName = lastNameEN;
+			varLanguage = languageEN;
+			varEmail = emailEN;
+			varTalk = 'Talk to Sofia';
+			varLanguageValue ='en_US';
+			varCountry='AW';
+		} else if (lang=='es'){
+			varFirstName = firstNameSP;
+			varLastName = lastNameSP;
+			varLanguage = languageSP;
+			varEmail = emailSP;
+			varTalk = 'Hablar con Sofia';
+			varLanguageValue ='es';
+			varCountry='AR';
+		} else if (lang=='pt_BR'){
+			varFirstName = firstNamePT;
+			varLastName = lastNamePT;
+			varLanguage = languagePT;
+			varEmail = emailPT;
+			varTalk = 'Falar com a Sofia';
+			varLanguageValue ='pt_BR';
+			varCountry='BR';
+		}
+		console.log("lang: "+lang);
+		console.log("varFirstName: "+varFirstName);
+		console.log("varLastName: "+varLastName);
+		console.log("varEmail: "+varEmail);
+		console.log("varLanguage: "+varLanguage);
+		console.log("varTalk: "+varTalk);
+		console.log("varLanguageValue: "+varLanguageValue);
+		console.log("isLogged: "+isLogged);
+		console.log("Country: "+varCountry);
+			
+		//embedded_svc.settings.prechatBackgroundImgURL = "..." //360x100 pixels Pre-Chat Banner, Specify a URL to set an image in the pre-chat form below the header and above the fields.
+		//embedded_svc.settings.smallCompanyLogoImgURL = 'https://images.prismic.io/prod-axa/40a8d53b-fd99-459a-9996-a88ba24e7f48_BoldChat+Icon.png' //36x36 pixels Logo for Header and Minimized Chat, Specify a URL to set the logo for the chat header and minimized chat.
+		embedded_svc.settings.smallCompanyLogoImgURL = 'https://images.prismic.io/prod-axa/63f9c13c-014a-4115-bff0-1ea3128dde25_Chatnegative24.png?auto=compress,format' //36x36 pixels Logo for Header and Minimized Chat, Specify a URL to set the logo for the chat header and minimized chat.
+		//embedded_svc.settings.waitingStateBackgroundImgURL = "..." //250x60 pixels Waiting State, Specify a URL to set the background image when the chat is in a waiting state.
+		embedded_svc.settings.avatarImgURL = 'https://images.prismic.io/prod-axa/63f9c13c-014a-4115-bff0-1ea3128dde25_Chatnegative24.png?auto=compress,format' //40x40 pixels Agent Avatar,  Specify a URL to set the image of the agent that appears during pre-chat and chat. If your chat window uses an automated invitation, this image appears in the top left of the invitation with the default HTML and CSS in the snippet.
+		embedded_svc.settings.chatbotAvatarImgURL = 'https://images.prismic.io/prod-axa/7600bd37-2975-42b1-967d-52c6f4d1ecb9_Chat24.png?auto=compress,format' //40x40 pixels Einstein Bots Avatar, Specify a URL to set the avatar image that appears when the customer is chatting with a bot.
+		embedded_svc.settings.defaultMinimizedText = varTalk; //(Defaults to Chat with an Expert)
+		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+		// Settings for Chat
+		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+			// Returns a valid button ID.
+		//};
+		if(isLogged==true){
+			embedded_svc.settings.prepopulatedPrechatFields = {
+			FirstName: "Adilson",
+			LastName: "Arcoverde",
+			Email: "adilson.arcoverde@pitang.com",
+			Language__c: varLanguageValue
+			}; //Sets the auto-population of pre-chat form fields
+		}else{
+			embedded_svc.settings.prepopulatedPrechatFields = {
+			FirstName: "Adilson",
+			LastName: "Arcoverde",
+			Email: "adilson.arcoverde@pitang.com",
+			Language__c: varLanguageValue
+			}; //Sets the auto-population of pre-chat form fields
+		}
+		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+		
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+		
+		embedded_svc.settings.extraPrechatFormDetails = [{
+			"label": varLastName,
+			"transcriptFields":[ "LastName__c" ],
+			"displayToAgent":true
+        	},{
+			"label": varFirstName,
+			"transcriptFields":[ "FirstName__c" ],
+			"displayToAgent":true
+        	},{
+			"label": varEmail,
+			"transcriptFields":[ "Email__c" ],
+			"displayToAgent":true
+        	},{
+			"label": varLanguage,
+			"value": varLanguageValue,
+			"transcriptFields":[ "Language__c" ],
+			"displayToAgent":true
+        	},{
+			"label": Country,
+			"value": varCountry,
+			"transcriptFields":[ "Country__c" ],
+			"displayToAgent":true
+        	}];
+		
+		embedded_svc.init(
+			'https://visa-gateway--ust.my.salesforce.com',
+			'https://ust-visabenefits.cs173.force.com/webportal',
+			gslbBaseURL,
+			'00D7Y000000LAoI',
+			'Chat_Group',
+			{
+				baseLiveAgentContentURL: 'https://c.la3-c1cs-fra.salesforceliveagent.com/content',
+				deploymentId: '5727Y000000KylM',
+				buttonId: '5737Y0000004DHi',
+				baseLiveAgentURL: 'https://d.la3-c1cs-fra.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'Chat_Group',
+				isOfflineSupportEnabled: true
+			}
+		);
+	};
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://visa-gateway--ust.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+</script>
+<style>
+       body {
+          
+         background: url("https://gferreras.github.io/sofiademo/fondo.jpg") no-repeat;
+	 background-repeat: no-repeat;
+         background-size: cover;
+      }
+      #button_goes_here{
+            width: 100%; 
+            height: 100%; 
+            margin: 0 auto;
+            position: relative;
+      }
+    </style>	
+</body>
+</html>	
